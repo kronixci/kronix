@@ -1,1 +1,2 @@
 run: rspec test/fixtures
+project: git://github.com/jhonnyquest/walky.git

@@ -4,6 +4,9 @@ require 'test/unit'
 class TestKronix < Test::Unit::TestCase
   def setup
     FileUtils.rm('test_log') rescue nil
+
+    @path = "test/fixtures/projects"
+    FileUtils.rm_rf(@path) rescue nil
   end
 
   def test_can_extract_one_passing_rspec_response
@@ -51,5 +54,10 @@ class TestKronix < Test::Unit::TestCase
   def test_parse_from_config_file
     result = Kronix::TestResponse.run_tests_command
     assert_equal result, 'rspec test/fixtures'
+  end
+
+  def test_can_clone_project
+    Kronix::Project.clone("git://github.com/jhonnyquest/walky.git", @path)
+    assert Dir.exists? "#{@path}/walky"
   end
 end
