@@ -32,8 +32,8 @@ module Kronix
     end
 
     def self.run_tests_command
-      file = "#{File.dirname(__FILE__)}/../../config.yml"
-      YAML.load(File.open(file))["run"]
+      file = File.join(Dir.pwd, 'config.yml')
+      YAML.load(File.read(file))["run"]
     end
   end
 end
