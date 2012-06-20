@@ -9,10 +9,11 @@ module Kronix
     old_dir = Dir.pwd
 
     to = File.join(path, Project.clone(project, path))
+
     FileUtils.cd(to)
     result = TestResponse.process
-
     FileUtils.cd(old_dir)
+
     if result.fails > 0
       false
     else

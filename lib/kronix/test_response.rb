@@ -36,7 +36,7 @@ module Kronix
     #
     # Returns a String
     def self.read
-      File.read("test_log").split("\n").last
+      File.read("test_log")
     end
 
     # Responsability:

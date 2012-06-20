@@ -6,7 +6,8 @@ class TestKronix < Test::Unit::TestCase
     FileUtils.rm('test_log') rescue nil
 
     @path = "test/fixtures/projects"
-    @project = "git://github.com/jhonnyquest/walky.git"
+    @project = File.expand_path("test/cloned_projects/walky/")
+    @project_fails = File.expand_path("test/cloned_projects/walky_fails/")
 
     FileUtils.rm_rf(@path) rescue nil
   end
@@ -65,5 +66,9 @@ class TestKronix < Test::Unit::TestCase
 
   def test_can_run_ok_project
     assert Kronix.ci(@project, @path)
+  end
+
+  def test_can_run_fail_project
+    assert_equal false, Kronix.ci(@project_fails, @path)
   end
 end
