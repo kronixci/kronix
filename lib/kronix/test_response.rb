@@ -18,19 +18,40 @@ module Kronix
       new RspecEngine.parse(end_line)
     end
 
+    # Responsability:
+    #   Run a the test command framework
+    #   and save it in a log file
+    #
+    # Returns nothing
     def self.run
       `#{self.run_tests_command} > ./test_log`
     end
 
+    # Responsability:
+    #   Read the last line of a file, this should be the test
+    #   framework response:
+    #
+    #   Example Rspec:
+    #     4 examples, 0 failures, 4 pending
+    #
+    # Returns a String
     def self.read
       File.read("test_log").split("\n").last
     end
 
+    # Responsability:
+    #   Process the test framework response to app
+    #
+    # Returns Kronix::TestResponse
     def self.process
       self.run
       self.parse(self.read)
     end
 
+    # Responsability
+    #   Identify what command represents the test framework
+    #
+    # Returns String
     def self.run_tests_command
       file = File.join(Dir.pwd, 'kronix.yml')
       YAML.load(File.read(file))["run"]
