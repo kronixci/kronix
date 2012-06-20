@@ -6,6 +6,8 @@ class TestKronix < Test::Unit::TestCase
     FileUtils.rm('test_log') rescue nil
 
     @path = "test/fixtures/projects"
+    @project = "git://github.com/jhonnyquest/walky.git"
+
     FileUtils.rm_rf(@path) rescue nil
   end
 
@@ -57,7 +59,11 @@ class TestKronix < Test::Unit::TestCase
   end
 
   def test_can_clone_project
-    Kronix::Project.clone("git://github.com/jhonnyquest/walky.git", @path)
+    Kronix::Project.clone(@project, @path)
     assert Dir.exists? "#{@path}/walky"
+  end
+
+  def test_can_run_ok_project
+    assert Kronix.ci(@project, @path)
   end
 end

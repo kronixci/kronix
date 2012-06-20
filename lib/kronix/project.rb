@@ -3,6 +3,7 @@ module Kronix
     def self.clone(url, path)
       create_dir(path)
       `cd #{path} && git clone #{url} 2>&1`
+      File.basename(url, ".git")
     end
 
     def self.create_dir(path)
