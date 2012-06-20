@@ -28,7 +28,7 @@ module Kronix
     end
 
     # Responsability:
-    #   Read the last line of a file, this should be the test
+    #   Read file, this should be the test
     #   framework response:
     #
     #   Example Rspec:
