@@ -5,12 +5,13 @@ require 'kronix/test_response'
 require 'kronix/extractor'
 
 module Kronix
-  def self.ci(project, path)
+  def self.install(project, path)
+    Project.clone(project, path)
+  end
+
+  def self.build(path)
     old_dir = Dir.pwd
-
-    to = File.join(path, Project.clone(project, path))
-
-    FileUtils.cd(to)
+    FileUtils.cd(path)
     result = TestResponse.process
     FileUtils.cd(old_dir)
 

@@ -1,7 +1,6 @@
-require 'kronix'
-require 'test/unit'
+require 'test_helper'
 
-class TestKronix < Test::Unit::TestCase
+class KronixTest < Test::Unit::TestCase
   def setup
     FileUtils.rm('test_log') rescue nil
 
@@ -59,16 +58,18 @@ class TestKronix < Test::Unit::TestCase
     assert_equal result, 'rspec test/fixtures'
   end
 
-  def test_can_clone_project
-    Kronix::Project.clone(@project, @path)
+  def test_install_project
+    Kronix.install(@project, @path)
     assert Dir.exists? "#{@path}/walky"
   end
 
-  def test_can_run_ok_project
-    assert Kronix.ci(@project, @path)
+  def test_build_ok_project
+    Kronix.install(@project, @path)
+    assert Kronix.build("#{@path}/walky")
   end
 
-  def test_can_run_fail_project
-    assert_equal false, Kronix.ci(@project_fails, @path)
+  def test_build_fail_project
+    Kronix.install(@project_fails, @path)
+    assert_equal false, Kronix.build("#{@path}/walky_fails")
   end
 end
