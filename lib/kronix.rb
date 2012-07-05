@@ -15,10 +15,6 @@ module Kronix
     result = TestResponse.process
     FileUtils.cd(old_dir)
 
-    if result.fails > 0
-      false
-    else
-      true
-    end
+    result.fails == 0
   end
 end
