@@ -6,9 +6,8 @@ module Kronix
       @tests, @fails, @wait = *options
     end
 
-    # Responsability:
-    #  Parse a string with tests response and retrieve
-    #  what fails and examples are ok.
+    # Parse a string with tests response and retrieve
+    # what fails and examples are ok.
     #
     # - end_line The string with result of assertions
     #    In Rspec: 4 examples, 0 failures, 4 pending
@@ -18,29 +17,26 @@ module Kronix
       new RspecEngine.parse(end_line)
     end
 
-    # Responsability:
-    #   Run a the test command framework
-    #   and save it in a log file
+    # Run a the test command framework
+    # and save it in a log file
     #
     # Returns nothing
     def self.run
       `#{self.run_tests_command} > ./test_log`
     end
 
-    # Responsability:
-    #   Read file, this should be the test
-    #   framework response:
+    # Read file, this should be the test
+    # framework response:
     #
-    #   Example Rspec:
-    #     4 examples, 0 failures, 4 pending
+    # Example Rspec:
+    #   4 examples, 0 failures, 4 pending
     #
     # Returns a String
     def self.read
       File.read("test_log")
     end
 
-    # Responsability:
-    #   Process the test framework response to app
+    # Process the test framework response to app
     #
     # Returns Kronix::TestResponse
     def self.process
@@ -48,8 +44,7 @@ module Kronix
       self.parse(self.read)
     end
 
-    # Responsability
-    #   Identify what command represents the test framework
+    # Identify what command represents the test framework
     #
     # Returns String
     def self.run_tests_command

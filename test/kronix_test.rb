@@ -4,7 +4,6 @@ class KronixTest < Test::Unit::TestCase
   def setup
     FileUtils.rm('test_log') rescue nil
 
-    @path = "test/fixtures/projects"
     @project = File.expand_path("test/cloned_projects/walky/")
     @project_fails = File.expand_path("test/cloned_projects/walky_fails/")
 
@@ -58,18 +57,11 @@ class KronixTest < Test::Unit::TestCase
     assert_equal result, 'rspec test/fixtures'
   end
 
-  def test_install_project
-    Kronix.install(@project, @path)
-    assert Dir.exists? "#{@path}/walky"
-  end
-
   def test_build_ok_project
-    Kronix.install(@project, @path)
-    assert Kronix.build("#{@path}/walky")
+    assert Kronix.build(@project)
   end
 
   def test_build_fail_project
-    Kronix.install(@project_fails, @path)
-    assert_equal false, Kronix.build("#{@path}/walky_fails")
+    assert_equal false, Kronix.build(@project_fails)
   end
 end
