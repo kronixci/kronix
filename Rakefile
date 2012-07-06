@@ -1,11 +1,12 @@
 require 'rake'
 require 'rake/testtask'
 
-task :default => [:test_units]
+task :default => [:test]
 
-desc "Run basic tests"
-Rake::TestTask.new("test_units") do |t|
+desc "Run Kronix tests"
+Rake::TestTask.new("test") do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
   t.pattern = 'test/**/*_test.rb'
   t.verbose = true
-  t.warning = true
 end
