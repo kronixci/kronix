@@ -2,8 +2,6 @@ require 'test_helper'
 
 class KronixTest < Test::Unit::TestCase
   def setup
-    FileUtils.rm('test_log') rescue nil
-
     @project = File.expand_path("test/cloned_projects/walky/")
     @project_fails = File.expand_path("test/cloned_projects/walky_fails/")
 
@@ -38,11 +36,6 @@ class KronixTest < Test::Unit::TestCase
     assert_equal result.tests, 4
     assert_equal result.fails, 2
     assert_equal result.wait, 0
-  end
-
-  def test_can_run_test_framework
-    Kronix::TestResponse.run
-    assert File.exists? 'test_log'
   end
 
   def test_can_run_and_parse_test_framework

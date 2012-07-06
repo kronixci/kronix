@@ -22,26 +22,14 @@ module Kronix
     #
     # Returns nothing
     def self.run
-      `#{self.run_tests_command} > ./test_log`
-    end
-
-    # Read file, this should be the test
-    # framework response:
-    #
-    # Example Rspec:
-    #   4 examples, 0 failures, 4 pending
-    #
-    # Returns a String
-    def self.read
-      File.read("test_log")
+      `#{self.run_tests_command}`
     end
 
     # Process the test framework response to app
     #
     # Returns Kronix::TestResponse
     def self.process
-      self.run
-      self.parse(self.read)
+      self.parse(self.run)
     end
 
     # Identify what command represents the test framework
