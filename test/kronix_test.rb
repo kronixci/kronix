@@ -8,41 +8,10 @@ class KronixTest < Test::Unit::TestCase
     FileUtils.rm_rf(@path) rescue nil
   end
 
-  def test_can_extract_one_passing_rspec_response
-    response = "1 example, 0 failures"
-    result   = Kronix::TestResponse.parse(response)
-    assert_equal result.tests, 1
-    assert_equal result.fails, 0
-  end
-
-  def test_can_extract_multiple_passing_rspec_response
-    response = "2 examples, 0 failures"
-    result   = Kronix::TestResponse.parse(response)
-    assert_equal result.tests, 2
-    assert_equal result.fails, 0
-  end
-
-  def test_can_extract_pending_tests
-    response = "4 examples, 2 failures, 1 pending"
-    result   = Kronix::TestResponse.parse(response)
-    assert_equal result.tests, 4
-    assert_equal result.fails, 2
-    assert_equal result.wait, 1
-  end
-
-  def test_have_no_pending_tests
-    response = "4 examples, 2 failures"
-    result   = Kronix::TestResponse.parse(response)
-    assert_equal result.tests, 4
-    assert_equal result.fails, 2
-    assert_equal result.wait, 0
-  end
 
   def test_can_run_and_parse_test_framework
     result = Kronix::TestResponse.process
-    assert_equal result.tests, 1
-    assert_equal result.fails, 0
-    assert_equal result.wait, 0
+    assert_equal true, result.pass?
   end
 
   def test_parse_from_config_file
@@ -51,10 +20,15 @@ class KronixTest < Test::Unit::TestCase
   end
 
   def test_build_ok_project
-    assert Kronix.build(@project)
+    assert_equal true, Kronix.build(@project)
   end
 
   def test_build_fail_project
     assert_equal false, Kronix.build(@project_fails)
+  end
+
+  def test_build_with_migration
+    project = File.expand_path("test/dummy")
+    assert_equal false, Kronix.build(project)
   end
 end

@@ -1,38 +1,36 @@
 module Kronix
   class TestResponse
-    attr_reader :tests, :fails, :wait
+    attr_reader :pass
 
-    def initialize(options)
-      @tests, @fails, @wait = *options
+    def initialize(pass)
+      @pass = pass
     end
 
-    # Parse a string with tests response and retrieve
-    # what fails and examples are ok.
+    # Verifiy if tests are ok
     #
-    # - end_line The string with result of assertions
-    #    In Rspec: 4 examples, 0 failures, 4 pending
-    #
-    # Returns Kronix::TestResponse
-    def self.parse(end_line)
-      new RspecEngine.parse(end_line)
+    # Returns boolean
+    def pass?
+      @pass
     end
 
     # Run a the test command framework
-    # and save it in a log file
+    # and check if it pass. If tests
+    # are ok then exit code will be 0 else other number
     #
-    # Returns nothing
+    # Returns boolean
     def self.run
-      `#{self.run_tests_command}`
+      `#{self.run_tests_command} > /dev/null 2>&1` 
+      $?.exitstatus.zero?
     end
 
     # Process the test framework response to app
     #
     # Returns Kronix::TestResponse
     def self.process
-      self.parse(self.run)
+      new (self.run)
     end
 
-    # Identify what command represents the test framework
+    # Identify what command run the test framework
     #
     # Returns String
     def self.run_tests_command

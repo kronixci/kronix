@@ -1,5 +1,4 @@
 require 'yaml'
-require 'kronix/rspec_engine'
 require 'kronix/test_response'
 
 module Kronix
@@ -9,6 +8,6 @@ module Kronix
     result = TestResponse.process
     FileUtils.cd(old_dir)
 
-    result.fails == 0
+    result.pass?
   end
 end
