@@ -1,1 +1,2 @@
-run: rake test:units
+before: rake db:migrate
+run   : rake test:units

@@ -19,7 +19,16 @@ module Kronix
     #
     # Returns boolean
     def self.run
-      `#{self.run_tests_command} > /dev/null 2>&1` 
+      return false unless self.run_tests_command
+
+      if before_command = self.before_command
+        pid = Process.fork {
+          `#{before_command} > /dev/null 2>&1`
+        }
+        Process.waitpid(pid)
+      end
+
+      `#{self.run_tests_command} > /dev/null 2>&1`
       $?.exitstatus.zero?
     end
 
@@ -35,7 +44,16 @@ module Kronix
     # Returns String
     def self.run_tests_command
       file = File.join(Dir.pwd, 'kronix.yml')
-      YAML.load(File.read(file))["run"]
+      YAML.load(File.read(file))["run"] rescue nil
+    end
+
+    # Identify the commands that needs runs before the test suite
+    # Ex: database migration, db seed, etc.
+    #
+    # Returns String
+    def self.before_command
+      file = File.join(Dir.pwd, 'kronix.yml')
+      YAML.load(File.read(file))["before"] rescue nil
     end
   end
 end

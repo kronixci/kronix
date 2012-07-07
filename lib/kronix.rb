@@ -6,8 +6,9 @@ module Kronix
     old_dir = Dir.pwd
     FileUtils.cd(path)
     result = TestResponse.process
-    FileUtils.cd(old_dir)
 
     result.pass?
+  ensure
+    FileUtils.cd(old_dir)
   end
 end
