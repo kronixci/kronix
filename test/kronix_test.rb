@@ -12,11 +12,6 @@ class KronixTest < Test::Unit::TestCase
     @project_without_runner = File.expand_path("test/cloned_projects/no_run_project/")
   end
 
-  def test_can_run_and_parse_test_framework
-    result = Kronix::TestResponse.process
-    assert_equal true, result.pass?
-  end
-
   def test_parse_from_config_file
     result = Kronix::TestResponse.run_tests_command
     assert_equal result, 'rspec test/fixtures'
