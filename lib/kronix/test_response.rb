@@ -1,3 +1,5 @@
+require 'open3'
+
 module Kronix
   class TestResponse
     attr_reader :pass
@@ -22,14 +24,12 @@ module Kronix
       return false unless self.run_tests_command
 
       if before_command = self.before_command
-        pid = Process.fork {
-          `#{before_command} > /dev/null 2>&1`
-        }
-        Process.waitpid(pid)
+        status = Open3.pipeline("#{before_command} > /dev/null")
+        return false unless status.first.success?
       end
 
-      `#{self.run_tests_command} > /dev/null 2>&1`
-      $?.exitstatus.zero?
+      status = Open3.pipeline("#{run_tests_command} > /dev/null")
+      status.first.success?
     end
 
     # Process the test framework response to app
@@ -43,8 +43,12 @@ module Kronix
     #
     # Returns String
     def self.run_tests_command
-      file = File.join(Dir.pwd, 'kronix.yml')
-      YAML.load(File.read(file))["run"] rescue nil
+      config("run")
+    end
+
+    def self.config(commands)
+      yaml    = YAML.load(File.read(File.join(Dir.pwd, 'kronix.yml')))
+      command = yaml[commands] rescue nil
     end
 
     # Identify the commands that needs runs before the test suite
@@ -52,8 +56,7 @@ module Kronix
     #
     # Returns String
     def self.before_command
-      file = File.join(Dir.pwd, 'kronix.yml')
-      YAML.load(File.read(file))["before"] rescue nil
+      config("before")
     end
   end
 end
