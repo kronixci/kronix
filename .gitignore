@@ -1,3 +1,5 @@
 .rvmrc
 test/fixtures/projects/
 test/dummy/*.sqlite
+test/cloned_projects/failed_project/
+test/cloned_projects/sample_project/

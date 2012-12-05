@@ -1,2 +1,2 @@
-before: rake db:migrate
-run   : rake test:units
+before: bundle exec rake db:migrate
+run   : bundle exec rake test:units

@@ -6,8 +6,8 @@ class KronixTest < Test::Unit::TestCase
   end
 
   def setup
-    @project                = File.expand_path("test/cloned_projects/walky/")
-    @project_fails          = File.expand_path("test/cloned_projects/walky_fails/")
+    @project                = File.expand_path("test/cloned_projects/sample_project/")
+    @project_fails          = File.expand_path("test/cloned_projects/failed_project/")
     @project_empty          = File.expand_path("test/cloned_projects/empty_project/")
     @project_without_runner = File.expand_path("test/cloned_projects/no_run_project/")
   end
